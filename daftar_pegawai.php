@@ -28,7 +28,7 @@ include 'config/koneksi.php';
 							<div class="card">
 							<form method="POST" action="" enctype='multipart/form-data'>
 							<div class="card-header">
-							<h4 class="card-title">Daftar Pegawaii</h4>
+							<h4 class="card-title">Daftar Pegawai</h4>
 							</div>
 							<div class="card-body">
 								<div class="row">
