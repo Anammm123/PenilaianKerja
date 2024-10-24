@@ -9,3 +9,4 @@ pasword : fatik
 
 export database database kinerjapegawai.sql ke php my admin
 
+#Metode Fuzy
