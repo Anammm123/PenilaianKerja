@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
 	$username = isset($_POST['username']) ? htmlspecialchars(trim($_POST['username'])) : '';
 	$password = isset($_POST['password']) ? htmlspecialchars(trim($_POST['password'])) : '';
 
-	// Ensure all fields are filled
+	// Ensure all fields except password are filled
 	if (
 		empty($nm_pegawai) || empty($ttl) || empty($alamat) ||
 		empty($email) || empty($jeniskelamin) || empty($id_posisi) ||
@@ -34,10 +34,9 @@ if (isset($_POST['submit'])) {
 	} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		echo "<script>alert('Format email tidak valid!');</script>";
 	} else {
-		// If password is provided, hash it before storing it
+		// If password is provided, store it directly without hashing
 		if (!empty($password)) {
-			$password = password_hash($password, PASSWORD_DEFAULT);
-			$password_update = "password='$password',";
+			$password_update = ", password='$password'";
 		} else {
 			$password_update = "";
 		}
@@ -50,22 +49,9 @@ if (isset($_POST['submit'])) {
             email='$email', 
             jeniskelamin='$jeniskelamin', 
             id_posisi='$id_posisi',
-            username='$username',
-            password='$password'  -- Koma dihapus
+            username='$username'
+            $password_update  -- Append password update only if set
             WHERE id_pegawai=$id_pegawai");
-
-		$stmt = $koneksi->prepare("UPDATE pegawai SET 
-            nm_pegawai=?, 
-            ttl=?, 
-            alamat=?, 
-            email=?, 
-            jeniskelamin=?, 
-            id_posisi=?, 
-            username=?, 
-            password=? 
-            WHERE id_pegawai=?");
-		$stmt->bind_param("ssssssssi", $nm_pegawai, $ttl, $alamat, $email, $jeniskelamin, $id_posisi, $username, $password, $id_pegawai);
-		$stmt->execute();
 
 		if ($result) {
 			echo "<script>alert('Data pegawai sudah diperbarui!');</script>";
